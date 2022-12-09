@@ -17,6 +17,6 @@ public class QuestionDto {
 	private String content;
 	private LocalDateTime createDate;
 	
-	private List<Answer> answers;
+	private List<Answer> answer;
 	
 }
