@@ -65,4 +65,9 @@ public class QuestionService {
 		}		
 	}
 	
+	public void questionCreate(String subject, String content) {
+		
+		
+	}
+	
 }
