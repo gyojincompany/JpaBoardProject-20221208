@@ -62,8 +62,7 @@ public class QuestionService {
 			return questionDto;
 		} else {
 			throw new DataNotFoundException("해당 질문이 없습니다.");
-		}
-		
+		}		
 	}
 	
 }
