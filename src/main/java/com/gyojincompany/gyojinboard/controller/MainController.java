@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,13 +55,15 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/list")	
-	public String list(Model model) {
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
 		
 //		List<Question> questionList = questionRepository.findAll();
 		
-		List<QuestionDto> questionList = questionService.getQuestionList();
+//		List<QuestionDto> questionList = questionService.getQuestionList();
 		
-		model.addAttribute("questionList", questionList);
+		Page<Question> paging = questionService.getList(page);
+		
+		model.addAttribute("paging", paging);
 		
 		return "question_list";
 	}
