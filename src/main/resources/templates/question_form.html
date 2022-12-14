@@ -6,6 +6,13 @@
 <title>질문하기</title>
 </head>
 <body>
+	<nav class="navbar bg-light">
+	  <div class="container-fluid">
+	    <a class="navbar-brand" href="/index">질문-답변 공개게시판</a>
+	    &nbsp;&nbsp;<a href="#">로그인</a>
+	  </div>	  
+	</nav>
+
 	<div class="container">
 		<h5 class="my-3 border-bottom pb-2">질문하기</h5>
 		<form th:action="@{/questionCreate}" method="post" th:object="${questionForm}">
