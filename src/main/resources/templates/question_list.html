@@ -8,13 +8,21 @@
 <title>질문-답변 게시판</title>
 </head>
 <body>
-<nav class="navbar bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
 	  <div class="container-fluid">
-	    <a class="navbar-brand" href="/index">질문-답변 공개게시판</a>
-	    &nbsp;&nbsp;<a href="#">로그인</a>
+	    <a class="navbar-brand" href="/index">질문-답변 공개게시판</a>	    
+	    <div class="collapse navbar-collapse">
+	    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	    	<li class="nav-item">
+	    		<a class="nav-link" href="#">로그인</a>
+	    	</li>
+	    	<li class="nav-item">
+	    		<a class="nav-link" th:href="@{/join}">회원가입</a>
+	    	</li>
+	    </ul>
+	    </div>
 	  </div>
-	  
-</nav>
+	 </nav> 
 <div layout:fragment="content" class="container my-3">
 	<table class="table">
 		<thead class="table-info">
@@ -29,7 +37,7 @@
 			<td>
 				<a th:href="@{|/questionView/${question.id}|}" th:text="${question.subject}"></a>
 				<span class="small ms-2" th:if="${#lists.size(question.answerList) > 0}"
-				th:text="${#lists.size(question.answerList)}">
+				th:text="'('+${#lists.size(question.answerList)}+')'">
 					
 				</span>
 			</td>

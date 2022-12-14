@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gyojincompany.gyojinboard.dto.AnswerForm;
+import com.gyojincompany.gyojinboard.dto.MemberForm;
 import com.gyojincompany.gyojinboard.dto.QuestionDto;
 import com.gyojincompany.gyojinboard.dto.QuestionForm;
 import com.gyojincompany.gyojinboard.entity.Question;
 import com.gyojincompany.gyojinboard.repository.AnswerRepository;
 import com.gyojincompany.gyojinboard.repository.QuestionRepository;
 import com.gyojincompany.gyojinboard.service.AnswerService;
+import com.gyojincompany.gyojinboard.service.MemberService;
 import com.gyojincompany.gyojinboard.service.QuestionService;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +45,7 @@ public class MainController {
 	
 	private final QuestionService questionService;
 	private final AnswerService answerService; 
+	private final MemberService memberService;
 	
 	@RequestMapping(value = "/")	
 	public String home() {
@@ -109,6 +112,24 @@ public class MainController {
 		}
 		
 		questionService.questionCreate(questionForm.getSubject(), questionForm.getContent());
+				
+		return "redirect:list";
+	}
+	
+	@RequestMapping(value = "/join")
+	public String join(MemberForm memberForm) {
+				
+		return "join_form";
+	}
+	
+	@PostMapping(value = "/joinOk")
+	public String joinOk(@Valid MemberForm memberForm, BindingResult bindingResult) {
+		
+		if(bindingResult.hasErrors()) {
+			return "join_form";
+		}
+		
+		memberService.memberCreate(memberForm.getUsername(), memberForm.getPassword(), memberForm.getEmail());
 				
 		return "redirect:list";
 	}
