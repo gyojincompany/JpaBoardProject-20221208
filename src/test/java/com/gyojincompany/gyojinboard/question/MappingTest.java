@@ -26,7 +26,7 @@ public class MappingTest {
 	@Test
 	public void mappingTest1() {
 		//QuestionDto questionDto = new QuestionDto();
-		Optional<Question> question1 = questionRepository.findById(2);
+		Optional<Question> question1 = questionRepository.findById(2);		
 		
 		Question question = question1.get();
 		

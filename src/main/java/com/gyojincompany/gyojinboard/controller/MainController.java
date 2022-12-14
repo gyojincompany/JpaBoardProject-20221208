@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -85,10 +86,10 @@ public class MainController {
 		return "question_form";
 	}
 	
-	@RequestMapping(value = "/questionCreate")
+	@PostMapping(value = "/questionCreate")
 	public String questionCreateOk(@RequestParam String subject, @RequestParam String content) {
 		
-		
+		questionService.questionCreate(subject, content);
 				
 		return "redirect:list";
 	}
