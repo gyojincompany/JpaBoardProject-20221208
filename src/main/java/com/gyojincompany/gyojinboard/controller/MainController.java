@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.gyojincompany.gyojinboard.dto.AnswerForm;
 import com.gyojincompany.gyojinboard.dto.QuestionDto;
 import com.gyojincompany.gyojinboard.dto.QuestionForm;
 import com.gyojincompany.gyojinboard.entity.Question;
@@ -65,7 +66,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/questionView/{id}")
-	public String questionView(Model model, @PathVariable("id") Integer id) {
+	public String questionView(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
 		
 		QuestionDto question = questionService.getQuestion(id);
 		
@@ -74,10 +75,18 @@ public class MainController {
 		return "question_view";
 	}
 	
-	@RequestMapping(value = "/answerCreate/{id}")
-	public String answerCreate(@PathVariable("id") Integer id, @RequestParam String content) {
+	@PostMapping(value = "/answerCreate/{id}")
+	public String answerCreate(Model model, @PathVariable("id") Integer id, @Valid AnswerForm answerForm, BindingResult bindingResult) {
 		
-		answerService.answerCreate(content, id);
+		QuestionDto questionDto = questionService.getQuestion(id);
+		
+		if(bindingResult.hasErrors()) {
+			
+			model.addAttribute("question", questionDto);
+			return "question_view";
+		}
+		
+		answerService.answerCreate(answerForm.getContent(), id);
 				
 		return String.format("redirect:/questionView/%s", id);
 	}

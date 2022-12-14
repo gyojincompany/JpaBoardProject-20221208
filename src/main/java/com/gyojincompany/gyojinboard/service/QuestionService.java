@@ -38,7 +38,7 @@ public class QuestionService {
 			questionDto.setId(question.getId());
 			questionDto.setContent(question.getContent());
 			questionDto.setSubject(question.getSubject());
-			questionDto.setAnswer(question.getAnswerList());
+			questionDto.setAnswers(question.getAnswerList());
 			questionDto.setCreateDate(question.getCreateDate());
 			
 			questionDtos.add(questionDto);
@@ -58,7 +58,7 @@ public class QuestionService {
 			questionDto.setId(question.getId());
 			questionDto.setContent(question.getContent());
 			questionDto.setSubject(question.getSubject());
-			questionDto.setAnswer(question.getAnswerList());
+			questionDto.setAnswers(question.getAnswerList());
 			questionDto.setCreateDate(question.getCreateDate());
 			return questionDto;
 		} else {

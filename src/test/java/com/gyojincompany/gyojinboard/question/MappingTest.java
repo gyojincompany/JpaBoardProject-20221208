@@ -35,7 +35,7 @@ public class MappingTest {
 			@Override
 			protected void configure() {
 				// TODO Auto-generated method stub
-				map().setAnswer(source.getAnswerList());
+				map().setAnswers(source.getAnswerList());
 			}			
 		};
 		
