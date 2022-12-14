@@ -129,8 +129,14 @@ public class MainController {
 			return "join_form";
 		}
 		
-		memberService.memberCreate(memberForm.getUsername(), memberForm.getPassword(), memberForm.getEmail());
-				
+		
+		try {
+			memberService.memberCreate(memberForm.getUsername(), memberForm.getPassword(), memberForm.getEmail());
+		}catch(Exception e){
+			e.printStackTrace();
+			bindingResult.reject("joinFail", "이미 등록된 아이디입니다.");
+			return "join_form";
+		}
 		return "redirect:list";
 	}
 	
