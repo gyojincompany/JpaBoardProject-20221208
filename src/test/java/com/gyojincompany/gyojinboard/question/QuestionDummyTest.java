@@ -17,7 +17,7 @@ public class QuestionDummyTest {
 		for(int i=0;i<150;i++) {//150개 더미데이터 삽입
 			String subject = String.format("테스트 데이터 입니다:%d", i);
 			String content = "테스트 데이터 내용입니다. 내용은 없습니다.";
-			questionService.questionCreate(subject, content);
+			questionService.questionCreate(subject, content, "tiger");
 		}
 		
 	}

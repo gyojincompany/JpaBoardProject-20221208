@@ -30,6 +30,7 @@
 		<tr>
 			<th>번호</th>
 			<th>제목</th>
+			<th>글쓴이</th>
 			<th>등록일</th>
 		</tr>
 		</thead>
@@ -41,6 +42,9 @@
 				th:text="'('+${#lists.size(question.answerList)}+')'">
 					
 				</span>
+			</td>
+			<td>
+				<span th:text="${question.writer.username}"></span>
 			</td>
 			<td th:text="${#temporals.format(question.createDate,'yyyy-MM-dd HH:mm')}"></td>
 		</tr>

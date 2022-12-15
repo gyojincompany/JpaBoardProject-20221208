@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -82,6 +83,7 @@ public class MainController {
 		return "question_view";
 	}
 	
+	@PreAuthorize("isAuthenticated")
 	@PostMapping(value = "/answerCreate/{id}")
 	public String answerCreate(Model model, @PathVariable("id") Integer id, 
 			@Valid AnswerForm answerForm, BindingResult bindingResult, Principal principal) {
@@ -94,26 +96,27 @@ public class MainController {
 			return "question_view";
 		}
 		
-		answerService.answerCreate(answerForm.getContent(), id);
+		answerService.answerCreate(answerForm.getContent(), id, principal.getName());
 				
 		return String.format("redirect:/questionView/%s", id);
 	}
 	
-
+	@PreAuthorize("isAuthenticated")
 	@RequestMapping(value = "/question_form")
 	public String questionCreate(QuestionForm questionForm) {
 				
 		return "question_form";
 	}
 	
+	@PreAuthorize("isAuthenticated")
 	@PostMapping(value = "/questionCreate")
-	public String questionCreateOk(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+	public String questionCreateOk(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal) {
 		
 		if(bindingResult.hasErrors()) {
 			return "question_form";
 		}
 		
-		questionService.questionCreate(questionForm.getSubject(), questionForm.getContent());
+		questionService.questionCreate(questionForm.getSubject(), questionForm.getContent(), principal.getName());
 				
 		return "redirect:list";
 	}
