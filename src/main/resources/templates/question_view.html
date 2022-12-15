@@ -41,7 +41,9 @@
   	<div class="card-body">
     	<h5 class="card-title" th:text="${question.content}">Info card title</h5>
     	<div class="d-flex justify-content-end">
+    		  			
 				<div class="badge bg-light text-info">
+					<div th:text="'질문자 : '+${question.writer.username}"></div>  					
 					<div th:text="${#temporals.format(question.createDate,'yyyy-MM-dd HH:mm')}"></div>
 				</div>
 		</div>
@@ -49,14 +51,15 @@
 </div>
 	<!-- 질문 내용 끝 -->
 	<!-- 답변 개수 출력 -->
-		<h5 class="border-bottom my-3 py-2" th:text="|${#lists.size(question.answers)}개의 답변이 있습니다.|"></h5>
+		<h5 class="border-bottom my-3 py-2" th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
 	<!-- 답변 개수 출력 끝 -->
 	
 	<!-- 답변 내용 반복 시작 -->
-	<div class="card my-3 p-2" th:each="answer : ${question.answers}">			
+	<div class="card my-3 p-2" th:each="answer : ${question.answerList}">			
 		<div class="card-text" th:text="${answer.content}"></div>
 		<div class="d-flex justify-content-end">
 				<div class="badge bg-light text-info">
+					<div th:text="'답변자 : '+${answer.writer.username}"></div>
 					<div th:text="${#temporals.format(answer.createTime,'yyyy-MM-dd HH:mm')}"></div>
 				</div>
 		</div>

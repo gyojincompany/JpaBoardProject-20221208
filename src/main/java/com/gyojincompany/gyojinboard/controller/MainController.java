@@ -76,7 +76,7 @@ public class MainController {
 	@RequestMapping(value = "/questionView/{id}")
 	public String questionView(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
 		
-		QuestionDto question = questionService.getQuestion(id);
+		Question question = questionService.getQuestion(id);
 		
 		model.addAttribute("question", question);
 		
@@ -88,11 +88,11 @@ public class MainController {
 	public String answerCreate(Model model, @PathVariable("id") Integer id, 
 			@Valid AnswerForm answerForm, BindingResult bindingResult, Principal principal) {
 		
-		QuestionDto questionDto = questionService.getQuestion(id);
+		Question question = questionService.getQuestion(id);
 		
 		if(bindingResult.hasErrors()) {
 			
-			model.addAttribute("question", questionDto);
+			model.addAttribute("question", question);
 			return "question_view";
 		}
 		

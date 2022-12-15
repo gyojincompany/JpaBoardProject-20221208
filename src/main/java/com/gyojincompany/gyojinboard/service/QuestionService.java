@@ -43,45 +43,45 @@ public class QuestionService {
 		
 	}
 	
-	public List<QuestionDto> getQuestionList() {
+	public List<Question> getQuestionList() {
 		
 		List<Question> questionList = questionRepository.findAll();
 		
 		
-		List<QuestionDto> questionDtos = new ArrayList<QuestionDto>();
+//		List<QuestionDto> questionDtos = new ArrayList<QuestionDto>();
 		
 		
-		for(int i=0;i<questionList.size();i++) {
-			//System.out.println("list인덱스:"+i);
-			Question question = questionList.get(i);
-			QuestionDto questionDto = new QuestionDto();
-			
-			questionDto.setId(question.getId());
-			questionDto.setContent(question.getContent());
-			questionDto.setSubject(question.getSubject());
-			questionDto.setAnswers(question.getAnswerList());
-			questionDto.setCreateDate(question.getCreateDate());
-			
-			questionDtos.add(questionDto);
-		}
+//		for(int i=0;i<questionList.size();i++) {
+//			//System.out.println("list인덱스:"+i);
+//			Question question = questionList.get(i);
+//			QuestionDto questionDto = new QuestionDto();
+//			
+//			questionDto.setId(question.getId());
+//			questionDto.setContent(question.getContent());
+//			questionDto.setSubject(question.getSubject());
+//			questionDto.setAnswers(question.getAnswerList());
+//			questionDto.setCreateDate(question.getCreateDate());
+//			
+//			questionDtos.add(questionDto);
+//		}		
 		
-		
-		return questionDtos;
+		return questionList;
 	}
 	
-	public QuestionDto getQuestion(Integer id) {
+	public Question getQuestion(Integer id) {
 		
 		Optional<Question> optQuestion = questionRepository.findById(id);
 		
-		QuestionDto questionDto = new QuestionDto();
+//		QuestionDto questionDto = new QuestionDto();
 		if(optQuestion.isPresent()) {
 			Question question = optQuestion.get();
-			questionDto.setId(question.getId());
-			questionDto.setContent(question.getContent());
-			questionDto.setSubject(question.getSubject());
-			questionDto.setAnswers(question.getAnswerList());
-			questionDto.setCreateDate(question.getCreateDate());
-			return questionDto;
+//			Question question = optQuestion.get();
+//			questionDto.setId(question.getId());
+//			questionDto.setContent(question.getContent());
+//			questionDto.setSubject(question.getSubject());
+//			questionDto.setAnswers(question.getAnswerList());
+//			questionDto.setCreateDate(question.getCreateDate());
+			return question;
 		} else {
 			throw new DataNotFoundException("해당 질문이 없습니다.");
 		}		
