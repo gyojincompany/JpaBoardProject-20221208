@@ -1,12 +1,14 @@
 package com.gyojincompany.gyojinboard.entity;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
@@ -36,4 +38,6 @@ public class Answer {
 	
 	private LocalDateTime modifyDate;//글 수정일시
 	
+	@ManyToMany
+	private Set<SiteMember> liker;//좋아요 누른 아이디
 }

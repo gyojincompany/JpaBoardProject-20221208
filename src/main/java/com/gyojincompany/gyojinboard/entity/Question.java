@@ -2,6 +2,7 @@ package com.gyojincompany.gyojinboard.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -41,5 +43,9 @@ public class Question {
 	private SiteMember writer;//글쓴이
 	
 	private LocalDateTime modifyDate;//글 수정일시
+	
+	@ManyToMany
+	//다대다 관계 일때 새로운 question_liker 테이블이 생성되고, 필드값은 각 테이블의 기본키가 된다. 
+	private Set<SiteMember> liker;//좋아요 누른 아이디(중복 방지를 위해 set 자료구조로 설정)
 	
 }
