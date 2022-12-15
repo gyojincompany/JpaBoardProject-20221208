@@ -1,5 +1,6 @@
 package com.gyojincompany.gyojinboard.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -82,7 +83,8 @@ public class MainController {
 	}
 	
 	@PostMapping(value = "/answerCreate/{id}")
-	public String answerCreate(Model model, @PathVariable("id") Integer id, @Valid AnswerForm answerForm, BindingResult bindingResult) {
+	public String answerCreate(Model model, @PathVariable("id") Integer id, 
+			@Valid AnswerForm answerForm, BindingResult bindingResult, Principal principal) {
 		
 		QuestionDto questionDto = questionService.getQuestion(id);
 		
