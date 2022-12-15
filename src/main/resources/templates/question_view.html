@@ -40,12 +40,14 @@
   	<div class="card-header" th:text="${question.subject}">Header</div>
   	<div class="card-body">
     	<h5 class="card-title" th:text="${question.content}">Info card title</h5>
-    	<div class="d-flex justify-content-end">
-    		  			
+    	<div class="d-flex justify-content-end">    		  			
 				<div class="badge bg-light text-info">
 					<div th:text="'질문자 : '+${question.writer.username}"></div>  					
 					<div th:text="${#temporals.format(question.createDate,'yyyy-MM-dd HH:mm')}"></div>
 				</div>
+		</div>
+		<div class="my-3">
+			<a th:href="@{|/modify/${question.id}|}" th:text="수정" class="btn btn-primary my-2"></a>
 		</div>
   	</div>
 </div>

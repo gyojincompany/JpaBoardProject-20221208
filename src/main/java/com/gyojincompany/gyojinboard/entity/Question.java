@@ -40,4 +40,6 @@ public class Question {
 	@ManyToOne
 	private SiteMember writer;//글쓴이
 	
+	private LocalDateTime modifyDate;//글 수정일시
+	
 }

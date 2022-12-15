@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.gyojincompany.gyojinboard.dto.AnswerForm;
 import com.gyojincompany.gyojinboard.dto.MemberForm;
@@ -68,6 +70,8 @@ public class MainController {
 		
 		Page<Question> paging = questionService.getList(page);
 		
+		model.addAttribute("pageCount", paging.getTotalElements());//전체 게시물 개수
+		
 		model.addAttribute("paging", paging);
 		
 		return "question_list";
@@ -102,7 +106,7 @@ public class MainController {
 	}
 	
 	@PreAuthorize("isAuthenticated")
-	@RequestMapping(value = "/question_form")
+	@GetMapping(value = "/questionCreate")
 	public String questionCreate(QuestionForm questionForm) {
 				
 		return "question_form";
@@ -148,6 +152,22 @@ public class MainController {
 	@RequestMapping(value = "/login")
 	public String login() {
 		return "login_form";
+	}
+	
+	@PreAuthorize("isAuthenticated")
+	@RequestMapping(value = "/modify/{id}")
+	public String modify(@PathVariable("id") Integer id, QuestionForm questionForm, Principal principal) {
+		
+		Question question = questionService.getQuestion(id);
+		
+		if(!question.getWriter().getUsername().equals(principal.getName()) ) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");			
+		}
+		
+		questionForm.setSubject(question.getSubject());
+		questionForm.setContent(question.getContent());
+		
+		return "question_form";
 	}
 	
 }
