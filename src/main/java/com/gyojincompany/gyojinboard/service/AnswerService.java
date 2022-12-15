@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.gyojincompany.gyojinboard.entity.Answer;
 import com.gyojincompany.gyojinboard.entity.Question;
 import com.gyojincompany.gyojinboard.entity.SiteMember;
+import com.gyojincompany.gyojinboard.exception.DataNotFoundException;
 import com.gyojincompany.gyojinboard.repository.AnswerRepository;
 import com.gyojincompany.gyojinboard.repository.MemberRepository;
 import com.gyojincompany.gyojinboard.repository.QuestionRepository;
@@ -35,7 +36,28 @@ public class AnswerService {
 		answer.setQuestion(question);
 		answer.setWriter(siteMember);
 		
-		answerRepository.save(answer);
+		answerRepository.save(answer);		
+	}
+	
+	public Answer getAnswer(Integer id) {
+		Optional<Answer> optAnswer = answerRepository.findById(id);
 		
+		if(optAnswer.isPresent()) {
+			return optAnswer.get();
+		} else {
+			throw new DataNotFoundException("해당 답변이 없습니다.");
+		}
+	}
+	
+	public void answerModify(String content, Answer answer) {
+		
+		answer.setContent(content);
+		answer.setModifyDate(LocalDateTime.now());
+		answerRepository.save(answer);
+	}
+	
+	public void answerDelete(Integer id) {
+		
+		answerRepository.deleteById(id);
 	}
 }

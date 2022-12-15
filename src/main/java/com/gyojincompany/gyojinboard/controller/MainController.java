@@ -25,6 +25,7 @@ import com.gyojincompany.gyojinboard.dto.AnswerForm;
 import com.gyojincompany.gyojinboard.dto.MemberForm;
 import com.gyojincompany.gyojinboard.dto.QuestionDto;
 import com.gyojincompany.gyojinboard.dto.QuestionForm;
+import com.gyojincompany.gyojinboard.entity.Answer;
 import com.gyojincompany.gyojinboard.entity.Question;
 import com.gyojincompany.gyojinboard.repository.AnswerRepository;
 import com.gyojincompany.gyojinboard.repository.QuestionRepository;
@@ -155,7 +156,7 @@ public class MainController {
 	}
 	
 	@PreAuthorize("isAuthenticated")
-	@RequestMapping(value = "/modify/{id}")
+	@GetMapping(value = "/modify/{id}")
 	public String modify(@PathVariable("id") Integer id, QuestionForm questionForm, Principal principal) {
 		
 		Question question = questionService.getQuestion(id);
@@ -168,6 +169,86 @@ public class MainController {
 		questionForm.setContent(question.getContent());
 		
 		return "question_form";
+	}
+	
+	@PreAuthorize("isAuthenticated")
+	@PostMapping(value = "/modify/{id}")
+	public String questionModify(@PathVariable("id") Integer id, @Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal) {
+		
+		if(bindingResult.hasErrors()) {
+			return "question_form";
+		}
+		
+		Question question = questionService.getQuestion(id);
+		
+		questionService.modify(questionForm.getSubject(), questionForm.getContent(), question);
+		
+		return String.format("redirect:/questionView/%s", id);
+	}
+	
+	@PreAuthorize("isAuthenticated")
+	@GetMapping(value = "/delete/{id}")
+	public String delete(@PathVariable("id") Integer id, QuestionForm questionForm, Principal principal) {
+		
+		Question question = questionService.getQuestion(id);
+		
+		if(!question.getWriter().getUsername().equals(principal.getName()) ) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");			
+		}
+		
+		questionService.delete(id);
+		
+		return "redirect:/index";
+	}
+	
+	@PreAuthorize("isAuthenticated")
+	@GetMapping(value = "/answerModify/{id}")
+	public String answerModify(@PathVariable("id") Integer id, AnswerForm answerForm, Principal principal) {
+		
+		Answer answer = answerService.getAnswer(id);
+		
+		if(!answer.getWriter().getUsername().equals(principal.getName()) ) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");			
+		}
+		
+	
+		answerForm.setContent(answer.getContent());
+		
+		return "answer_form";
+	}
+	
+	@PreAuthorize("isAuthenticated")
+	@PostMapping(value = "/answerModify/{id}")
+	public String answerModify(@PathVariable("id") Integer id, @Valid AnswerForm answerForm, BindingResult bindingResult, Principal principal) {
+		
+		if(bindingResult.hasErrors()) {
+			return "answer_form";
+		}
+		
+		Answer answer = answerService.getAnswer(id);
+		
+		if(!answer.getWriter().getUsername().equals(principal.getName()) ) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");			
+		}
+		
+		answerService.answerModify(answerForm.getContent(), answer);
+		
+		return String.format("redirect:/questionView/%s", answer.getQuestion().getId());
+	}
+	
+	@PreAuthorize("isAuthenticated")
+	@GetMapping(value = "/answerDelete/{id}")
+	public String answerDelete(@PathVariable("id") Integer id, Principal principal) {
+		
+		Answer answer = answerService.getAnswer(id);
+		
+		if(!answer.getWriter().getUsername().equals(principal.getName()) ) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");			
+		}
+		
+		answerService.answerDelete(id);
+		
+		return String.format("redirect:/questionView/%s", answer.getQuestion().getId());
 	}
 	
 }
