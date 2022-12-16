@@ -263,4 +263,15 @@ public class MainController {
 		return String.format("redirect:/questionView/%s", id);
 	}
 	
+	@PreAuthorize("isAuthenticated")
+	@GetMapping(value = "/answerLike/{id}")
+	public String answerLike(@PathVariable("id") Integer id, Principal principal) {
+		
+		Answer answer = answerService.getAnswer(id);
+		SiteMember siteMember = memberService.getMemberInfo(principal.getName());
+		
+		answerService.answerLike(answer, siteMember);
+		return String.format("redirect:/questionView/%s", answer.getQuestion().getId());
+	}
+	
 }

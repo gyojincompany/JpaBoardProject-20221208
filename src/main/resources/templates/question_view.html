@@ -83,6 +83,9 @@
 		<div class="my-3">
 			<a th:href="@{|/answerModify/${answer.id}|}" sec:authorize="isAuthenticated()" th:text="수정" class="btn btn-primary my-2" th:if="${answer.writer != null and #authentication.getPrincipal().getUsername() == answer.writer.username}"></a>
 			<a th:href="@{|/answerDelete/${answer.id}|}" sec:authorize="isAuthenticated()" th:text="삭제" class="btn btn-primary my-2" th:if="${answer.writer != null and #authentication.getPrincipal().getUsername() == answer.writer.username}"></a>
+			<a th:href="@{|/answerLike/${answer.id}|}" class="btn btn-primary my-2" sec:authorize="isAuthenticated()">
+				좋아요 <span class="badge text-bg-secondary" th:text="${#lists.size(answer.liker)}">4</span>
+			</a>
 		</div>
 		
 	</div>		
