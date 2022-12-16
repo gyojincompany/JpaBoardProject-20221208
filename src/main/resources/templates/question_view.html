@@ -7,21 +7,22 @@
 <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
 	  <div class="container-fluid">
-	    <a class="navbar-brand" href="/index">질문-답변 공개게시판</a>	    
+	    <a class="navbar-brand" href="/index">질문-답변 공개게시판</a>
 	    <div class="collapse navbar-collapse">
 	    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 	    	<li class="nav-item">
-	    		<a class="nav-link" th:href="@{/login}">로그인</a>
+	    		<a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}" th:text="로그인"></a>	    		
+                <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}" th:text="로그아웃"></a>
 	    	</li>
 	    	<li class="nav-item">
-	    		<a class="nav-link" th:href="@{/join}">회원가입</a>
+	    		<a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/join}">회원가입</a>
 	    	</li>
 	    </ul>
 	    </div>
 	  </div>
-	 </nav> 
+ </nav> 
 <div class="container my-3">
 	<!-- 질문 내용 보기 -->	
 	<!-- 
@@ -53,9 +54,9 @@
 				</div>
 		</div>
 		<div class="my-3">
-			<a th:href="@{|/modify/${question.id}|}" th:text="수정" class="btn btn-primary my-2"></a>
-			<a th:href="@{|/delete/${question.id}|}" th:text="삭제" class="btn btn-primary my-2"></a>
-			<a th:href="@{|/questionLike/${question.id}|}"class="btn btn-primary my-2">
+			<a th:href="@{|/modify/${question.id}|}" sec:authorize="isAuthenticated()" th:text="수정" class="btn btn-primary my-2" th:if="${question.writer != null and #authentication.getPrincipal().getUsername() == question.writer.username}"></a>
+			<a th:href="@{|/delete/${question.id}|}" sec:authorize="isAuthenticated()" th:text="삭제" class="btn btn-primary my-2" th:if="${question.writer != null and #authentication.getPrincipal().getUsername() == question.writer.username}"></a>
+			<a th:href="@{|/questionLike/${question.id}|}" class="btn btn-primary my-2" sec:authorize="isAuthenticated()">
 				좋아요 <span class="badge text-bg-secondary" th:text="${#lists.size(question.liker)}">4</span>
 			</a>					
 		</div>		
@@ -80,8 +81,8 @@
 				</div>
 		</div>
 		<div class="my-3">
-			<a th:href="@{|/answerModify/${answer.id}|}" th:text="수정" class="btn btn-primary my-2"></a>
-			<a th:href="@{|/answerDelete/${answer.id}|}" th:text="삭제" class="btn btn-primary my-2"></a>
+			<a th:href="@{|/answerModify/${answer.id}|}" sec:authorize="isAuthenticated()" th:text="수정" class="btn btn-primary my-2" th:if="${answer.writer != null and #authentication.getPrincipal().getUsername() == answer.writer.username}"></a>
+			<a th:href="@{|/answerDelete/${answer.id}|}" sec:authorize="isAuthenticated()" th:text="삭제" class="btn btn-primary my-2" th:if="${answer.writer != null and #authentication.getPrincipal().getUsername() == answer.writer.username}"></a>
 		</div>
 		
 	</div>		
