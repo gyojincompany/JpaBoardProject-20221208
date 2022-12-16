@@ -47,5 +47,5 @@ public class Question {
 	@ManyToMany
 	//다대다 관계 일때 새로운 question_liker 테이블이 생성되고, 필드값은 각 테이블의 기본키가 된다. 
 	private Set<SiteMember> liker;//좋아요 누른 아이디(중복 방지를 위해 set 자료구조로 설정)
-	
+	//set의 원소의 개수가 곧 좋아요 의 수가 됨
 }

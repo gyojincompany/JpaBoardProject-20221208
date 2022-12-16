@@ -55,6 +55,9 @@
 		<div class="my-3">
 			<a th:href="@{|/modify/${question.id}|}" th:text="수정" class="btn btn-primary my-2"></a>
 			<a th:href="@{|/delete/${question.id}|}" th:text="삭제" class="btn btn-primary my-2"></a>
+			<a th:href="@{|/questionLike/${question.id}|}"class="btn btn-primary my-2">
+				좋아요 <span class="badge text-bg-secondary" th:text="${#lists.size(question.liker)}">4</span>
+			</a>					
 		</div>		
   	</div>
 </div>

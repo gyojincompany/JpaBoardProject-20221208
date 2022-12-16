@@ -27,6 +27,7 @@ import com.gyojincompany.gyojinboard.dto.QuestionDto;
 import com.gyojincompany.gyojinboard.dto.QuestionForm;
 import com.gyojincompany.gyojinboard.entity.Answer;
 import com.gyojincompany.gyojinboard.entity.Question;
+import com.gyojincompany.gyojinboard.entity.SiteMember;
 import com.gyojincompany.gyojinboard.repository.AnswerRepository;
 import com.gyojincompany.gyojinboard.repository.QuestionRepository;
 import com.gyojincompany.gyojinboard.service.AnswerService;
@@ -249,6 +250,17 @@ public class MainController {
 		answerService.answerDelete(id);
 		
 		return String.format("redirect:/questionView/%s", answer.getQuestion().getId());
+	}
+	
+	@PreAuthorize("isAuthenticated")
+	@GetMapping(value = "/questionLike/{id}")
+	public String questionLike(@PathVariable("id") Integer id, Principal principal) {
+		
+		Question question = questionService.getQuestion(id);
+		SiteMember siteMember = memberService.getMemberInfo(principal.getName());
+		
+		questionService.questionLike(question, siteMember);
+		return String.format("redirect:/questionView/%s", id);
 	}
 	
 }
